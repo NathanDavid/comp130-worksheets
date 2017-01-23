@@ -7,6 +7,20 @@
 const int wordLength = 5;
 const int numberOfWords = 15;
 
+int getlikeness(std::string playerguess, std::string secret)
+{
+	int result = 0;
+	for (int check = 0; check < wordLength; check++)
+	{
+		if (playerguess.at(check) == secret.at(check)) {
+			result++;
+		}
+	}
+
+	return result;
+
+}
+
 int main()
 {
 	// Seed the random number generator with the current time,
@@ -40,7 +54,39 @@ int main()
 	}
 
 	// TODO: implement the rest of the game
+	std::string playerguess = "";
+	int likescore = 0;
+	int numguesses = 0;
+
+	while (numguesses < 4)
+	{
+		std::cout << "\n Enter Your Guess \n";
+		std::cin >> playerguess;
+		std::set<std::string>::iterator counter = options.find(playerguess);
+		if (counter == options.end())
+		{
+			std::cout << "Word Not Valid." << std::endl;
+			continue;
+		}
+		else
+		{
+			likescore = getlikeness(playerguess, secret);
+			std::cout << "\nYou Scored: " << likescore << " out of " << wordLength << "\n";
+			if (likescore == wordLength)
+			{
+				std::cout << "\nCorrect! \n";
+				exit(0);
+			}
+			else
+			{
+				numguesses++;
+				std::cout << "\nYou Have " << 4 - numguesses << " Number Of Guesses Left. \n";
+				likescore = 0;
+			}
+		}
+	}
+
+	std::cout << "\nYou Lose.\n";
 
     return 0;
 }
-
